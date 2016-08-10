@@ -17,7 +17,7 @@ class UsersController extends \ServerController {
      */
 
     public function doLogin() {
-        
+
         try {
 
             $input = \Input::all();
@@ -25,45 +25,86 @@ class UsersController extends \ServerController {
                         'username' => 'required|min:5',
                         'password' => 'required|min:4'
             ));
-            
+
             if ($validate->fails()) {
-                return self::responseJson($validate->errors(), 'error', '0001000');
+                return self::responseJson($validate->errors(), 'error', '1walidacjaZle');
             }
-            
+
 
             $user = \User::withTrashed()->where('username', '=', $input['username'])->first();
-            
-            
+
+
             // chech deleted_at
-            
-            
+
+
             if (!$user) {
                 return self::responseJson('No user found', 'error', '2222');
             }
-            
-            if ( !empty($user->deleted_at) ) {
+
+            if (!empty($user->deleted_at)) {
                 return self::responseJson('User deleted', 'error', '2223');
             }
 
-            if ( $user->isCorrectPassword($input['password'])) {
+            if ($user->isCorrectPassword($input['password'])) {
                 dd('pass');
+
+                $session = \UserSession::createWithUser($user);
+                $session = save();
+
+                $user->hash = $session->hash;
                 $message = array(
-                    'user' => $user . '123',
+                    'user' => $user,
                 );
 
                 return self::responseJson($message);
             }
         } catch (\Exception $ex) {
-            return self::responseJson($ex->getMessage(), 'error', $this->moduleParams['moduleCode'] . '-0000');
+            return self::responseJson($ex->getMessage(), 'error', 'cos poszlo nie tak' . '-0000');
         }
     }
 
     public function isLogged() {
-        return self::responseJson('Zalogowany', '', '');
+        try {
+            $input = \Input::all();
+            $validator = \Validator::make($input, [
+                        'hash' => 'required|max:255'
+            ]);
+            if ($validator->fails()) {
+                return self::responseJson($validator->errors(), 'error', '');
+            }
+            $session = \UserSesion::getSessionWithHash($input['hash']);
+            if (!$session) {
+                return self::responseJson('Session not found', 'error', '....');
+            }
+            $user = $session->user;
+            if (!$user) {
+                return self::responseJson('User not found', 'error', '696969');
+            }
+        } catch (\Exception $ex) {
+            return self::responseJson($ex->getMessage(), 'error', 'blad hashu', '000000' );
+        }
     }
 
     public function doLogout() {
-        return self::responseJson('Wylogowany', '', '');
+
+        try {
+            $hash = \Input::get('hash');
+            if (empty($hash)) {
+                return self::responseJson('Session hash not found', 'error', '-100');
+            }
+            $session = \UserSession::getSessionWithHash($hash);
+            $user = $session->user;
+
+            if (!$user) {
+                return self::responseJson('user not found', 'error', '-200');
+            }
+            $session->finish_at = date('Y-m-d H:i:s');
+            $session->save();
+            $session->delete();
+            return self::responseJson('Zalogowany', '', '');
+        } catch (\Exception $ex) {
+            return self::responseJson($ex->getMessage(), 'error', '500', '500');
+        }
     }
 
 }

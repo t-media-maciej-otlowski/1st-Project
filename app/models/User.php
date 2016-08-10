@@ -7,41 +7,46 @@ use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class User extends Eloquent {
 
-use SoftDeletingTrait;
+    use SoftDeletingTrait;
 
-protected $primaryKey = 'userId';
+    protected $primaryKey = 'userId';
+    protected $table = 'users';
+    protected $date = ['deleted_at'];
+    protected $softDelete = true;
 
-protected $table = 'users';
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $fillable = array
+        (
+        'name',
+        'surname',
+        'username',
+        'password'
+    );
 
-protected $date = ['deleted_at'];
+    public function isCorrectPassword($password) {
+        $sendPass = hash('sha512', $password);
 
-protected $softDelete = true;
+        if ($this->password === $sendPass) {
 
-/**
- * The attributes excluded from the model's JSON form.
- *
- * @var array
- */
-protected $fillable = array
-(
-         'name',
-         'surname',
-         'username',
-         'password'
-);
-
-public function isCorrectPassword($password) {
-    $sendPass = hash('sha512', $password);
-    
-    if( $this->password === $sendPass ) {
-        
-        return true;
-    } else {
-        return false;
+            return true;
+        } else {
+            return false;
+        }
     }
-    
+
+    public function sessions() {
+        return $this->hasMany('UserSession', 'userId', 'userId');
+    }
+
+    public static function getWithHash($hash) {
+        $session = UserSession::getSessionWithHash($hash);
+        if (!$session) {
+            return null;
+        }
+    }
+
 }
-
-
-        
-    }

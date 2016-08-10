@@ -17,11 +17,7 @@ class UserSession extends \Eloquent {
     protected $table = 'users_sessions';
     protected $fillable = [
         'userId',
-        'hash',
-        'isMobile',
-        'userAgent',
-        'ipAdress',
-        'isForwarded'
+        'hash'
     ];
 
     public static function createWithUser($user) {
