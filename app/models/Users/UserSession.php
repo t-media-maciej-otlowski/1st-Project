@@ -1,5 +1,7 @@
 <?php
 
+namespace Users;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -14,24 +16,27 @@ class UserSession extends \Eloquent {
 
     protected $dates = ['deleted_at'];
     protected $primaryKey = 'userSessionId';
-    protected $table = 'users_sessions';
+    protected $table = 'users_session';
     protected $fillable = [
         'userId',
-        'hash'
+        'hash',
+        'start_at',
+        'finish_at'
     ];
 
     public static function createWithUser($user) {
-        $session = self::create([
-                    'userId' => $user->userId,
-                    'start_at' => date('Y-m-d H:i:s'),
-                    'finish_at' => date('Y-m-d H:i:s', strtotime(\Config::get('app_users.sessionExpirationTime'))),
-                    'hash' => self::generateHash($user->email, date('Y-m-d H:i:s'))
-        ]);
+        $param = [
+            'userId' => $user->id,
+            'start_at' => date('Y-m-d H:i:s'),
+            'finish_at' => date('Y-m-d H:i:s', strtotime('+5 minute')),
+            'hash' => self::generateHash(date('Y-m-d H:i:s'))
+        ];
+        $session = self::create($param);
         return $session;
     }
 
-    private static function generateHash($userEmail, $loggedAt) {
-        return hash('sha512', $userEmail, $loggedAt);
+    private static function generateHash($loggedAt) {
+        return hash('sha512', $loggedAt);
     }
 
     public static function getSessionWithHash($hash) {
@@ -42,7 +47,7 @@ class UserSession extends \Eloquent {
     }
 
     public function lenghtenSession() {
-        $this->finish_at = date('Y-m-d H:i:s', strtotime(\Config::get('app_users.sessionExpirationTime')));
+        $this->finish_at = date('Y-m-d H:i:s', strtotime('+5 minute'));
         $this->save();
     }
 

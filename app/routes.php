@@ -22,7 +22,7 @@ Route::group(array('prefix' => 'api'), function() {
 
     Route::post('login', array('uses' => 'Users\UsersController@doLogin'));
 
-    Route::get('islogin', array('uses' => 'Users\UsersController@isLogged'));
+    Route::post('islogin', array('uses' => 'Users\UsersController@isLogged'));
 
-    Route::get('logout', array('uses' => 'Users\UsersController@doLogout'));
+    Route::post('logout', array('uses' => 'Users\UsersController@doLogout'));
 });

@@ -2,6 +2,10 @@
 
 namespace Users;
 
+use Users\User;
+use Users\UserSession;
+
+
 class UsersController extends \ServerController {
     /*
       |--------------------------------------------------------------------------
@@ -31,33 +35,33 @@ class UsersController extends \ServerController {
             }
 
 
-            $user = \User::withTrashed()->where('username', '=', $input['username'])->first();
+            $user = User::withTrashed()->where('username', '=', $input['username'])->first();
 
 
             // chech deleted_at
 
-
             if (!$user) {
                 return self::responseJson('No user found', 'error', '2222');
             }
-
             if (!empty($user->deleted_at)) {
                 return self::responseJson('User deleted', 'error', '2223');
             }
 
-            if ($user->isCorrectPassword($input['password'])) {
-                dd('pass');
-
-                $session = \UserSession::createWithUser($user);
-                $session = save();
-
-                $user->hash = $session->hash;
-                $message = array(
-                    'user' => $user,
-                );
-
-                return self::responseJson($message);
+            if ( !$user->isCorrectPassword($input['password'])) {
+                return self::responseJson('Incorrect password', 'error', null);
             }
+            
+            $session = UserSession::createWithUser($user);
+//            $session->save();
+            
+            $user->sessions = [$session];
+            $message = array(
+                'user' => $user,
+            );
+
+            return self::responseJson($message);
+            
+
         } catch (\Exception $ex) {
             return self::responseJson($ex->getMessage(), 'error', 'cos poszlo nie tak' . '-0000');
         }
@@ -66,13 +70,16 @@ class UsersController extends \ServerController {
     public function isLogged() {
         try {
             $input = \Input::all();
+            
             $validator = \Validator::make($input, [
                         'hash' => 'required|max:255'
+                
             ]);
             if ($validator->fails()) {
                 return self::responseJson($validator->errors(), 'error', '');
             }
-            $session = \UserSesion::getSessionWithHash($input['hash']);
+             
+            $session = UserSession::getSessionWithHash($input['hash']);
             if (!$session) {
                 return self::responseJson('Session not found', 'error', '....');
             }

@@ -1,17 +1,22 @@
 <?php
 
+namespace Users;
+
 //use Illuminate\Auth\UserTrait;
 //use Illuminate\Auth\Reminders\RemindableTrait;
 //use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class User extends Eloquent {
+
+
+class User extends \Eloquent {
 
     use SoftDeletingTrait;
 
-    protected $primaryKey = 'userId';
+    protected $primaryKey = 'id';
     protected $table = 'users';
     protected $date = ['deleted_at'];
+    protected $hidden = ['password'];
     protected $softDelete = true;
 
     /**
