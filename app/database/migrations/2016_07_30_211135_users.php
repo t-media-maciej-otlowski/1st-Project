@@ -19,9 +19,8 @@ class Users extends Eloquent {
     }
 
     public function down() {
-        
+
         Schema::drop('users');
-     
     }
 
 }

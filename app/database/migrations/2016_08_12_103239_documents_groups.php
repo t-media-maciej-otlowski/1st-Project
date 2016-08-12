@@ -3,23 +3,26 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UsersSession extends Migration {
+class DocumentsGroups extends Eloquent {
 
     /**
      * Run the migrations.
      *
      * @return void
+
      */
+    use SoftDeletingTrait;
+
     public function up() {
-        Schema::create('users_session', function($table) {
+        Schema::create('documents_groups', function($table) {
             $table->increments('id');
-            $table->Integer('user__id');
-            $table->String('hash', 255);
+            $table->integer('id_parent')->nullable();
+            $table->string('name');
+            $table->string('description');
+            $table->integer('number');
             $table->timestamps();
-            $table->timestamp('start_at');
-            $table->timestamp('finish_at');
+            $table->softDeletes();
         });
-        //
     }
 
     /**
@@ -28,7 +31,7 @@ class UsersSession extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('users_session');
+        Schema::drop('documents_groups');
     }
 
 }

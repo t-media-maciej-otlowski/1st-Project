@@ -3,24 +3,25 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class DocumentsAttributes extends Eloquent {
+class DocumentsFiles extends Migration {
 
     use SoftDeletingTrait;
 
     public function up() {
-        Schema::create('documents_attributes', function($table) {
+        Schema::create('documents_files', function($table) {
             $table->increments('id');
             $table->integer('documents__id');
             $table->string('name');
-            $table->text('value');
-            $table->string('type');
+            $table->string('fullname');
+            $table->string('extension');
+            $table->string('hash');
             $table->timestamps();
             $table->softDeletes();
         });
     }
 
     public function down() {
-        Schema::drop('documents_attributtes');
+        Schema::drop('documents_files');
     }
 
 }

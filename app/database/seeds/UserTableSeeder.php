@@ -27,7 +27,7 @@ class UserTableSeeder extends Seeder {
                             'username' => 'user' . $i,
                             'password' => hash('sha512', 'surname')
                 ]);
-            };
+            }
         } catch (Exception $ads) {
            // DB::rollback();
         }

@@ -22,6 +22,8 @@ Route::group(array('prefix' => 'api'), function() {
 
     Route::post('login', array('uses' => 'Users\UsersController@doLogin'));
 
+    //Route::post('login', array('uses' => 'Users\UsersController@showDocument'));
+    
     Route::post('islogin', array('uses' => 'Users\UsersController@isLogged'));
 
     Route::post('logout', array('uses' => 'Users\UsersController@doLogout'));

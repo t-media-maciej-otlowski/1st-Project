@@ -2,9 +2,7 @@
 
 namespace Users;
 
-use Users\User;
-use Users\UserSession;
-
+use Documents\Document;
 
 class UsersController extends \ServerController {
     /*
@@ -20,6 +18,31 @@ class UsersController extends \ServerController {
       |
      */
 
+// 
+// 1.
+// $users = User::all();
+// foreach($users as $index => &$user) {
+//    $user->documents;
+// } 
+// 2.
+// $usersWithDocs = User::where(1)->with('documents')->get();
+   
+    
+    
+    
+    
+
+
+    /*
+      public function showDocument() {
+      try {
+      $document = Documents::withTrashed()->where('confirmed', 0);
+      } catch (\Exception $ex) {
+
+      }
+      }
+     */
+
     public function doLogin() {
 
         try {
@@ -29,6 +52,7 @@ class UsersController extends \ServerController {
                         'username' => 'required|min:5',
                         'password' => 'required|min:4'
             ));
+
 
             if ($validate->fails()) {
                 return self::responseJson($validate->errors(), 'error', '1walidacjaZle');
@@ -47,21 +71,19 @@ class UsersController extends \ServerController {
                 return self::responseJson('User deleted', 'error', '2223');
             }
 
-            if ( !$user->isCorrectPassword($input['password'])) {
+            if (!$user->isCorrectPassword($input['password'])) {
                 return self::responseJson('Incorrect password', 'error', null);
             }
-            
+
             $session = UserSession::createWithUser($user);
 //            $session->save();
-            
+
             $user->sessions = [$session];
             $message = array(
                 'user' => $user,
             );
 
             return self::responseJson($message);
-            
-
         } catch (\Exception $ex) {
             return self::responseJson($ex->getMessage(), 'error', 'cos poszlo nie tak' . '-0000');
         }
@@ -70,15 +92,14 @@ class UsersController extends \ServerController {
     public function isLogged() {
         try {
             $input = \Input::all();
-            
+
             $validator = \Validator::make($input, [
                         'hash' => 'required|max:255'
-                
             ]);
             if ($validator->fails()) {
                 return self::responseJson($validator->errors(), 'error', '');
             }
-             
+
             $session = UserSession::getSessionWithHash($input['hash']);
             if (!$session) {
                 return self::responseJson('Session not found', 'error', '....');
@@ -88,7 +109,7 @@ class UsersController extends \ServerController {
                 return self::responseJson('User not found', 'error', '696969');
             }
         } catch (\Exception $ex) {
-            return self::responseJson($ex->getMessage(), 'error', 'blad hashu', '000000' );
+            return self::responseJson($ex->getMessage(), 'error', 'blad hashu', '000000');
         }
     }
 

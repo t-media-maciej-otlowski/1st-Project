@@ -1,13 +1,11 @@
 <?php
-
+namespace Documents;
 namespace Users;
 
 //use Illuminate\Auth\UserTrait;
 //use Illuminate\Auth\Reminders\RemindableTrait;
 //use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
-
-
 
 class User extends \Eloquent {
 
@@ -52,6 +50,10 @@ class User extends \Eloquent {
         if (!$session) {
             return null;
         }
+    }
+
+    public function ownDocument() {
+        return $this->hasMany('DocumentAttributes', 'userId', 'userId');
     }
 
 }
