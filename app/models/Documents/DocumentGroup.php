@@ -1,5 +1,6 @@
-
 <?php
+namespace Documents;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -7,7 +8,6 @@
  * and open the template in the editor.
  */
 
-namespace Documents;
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
@@ -24,12 +24,10 @@ class DocumentGroup extends \Eloquent {
         'name',
         'description',
         'number'
-        
     ];
 
     public function documents() {
         return $this->hasMany('Document', 'id', 'documents_groups__id');
     }
 
-    
 }

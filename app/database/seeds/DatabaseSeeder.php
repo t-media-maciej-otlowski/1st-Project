@@ -9,8 +9,8 @@ class DatabaseSeeder extends Seeder {
      */
     public function run() {
 
-        //$this->call('UserTableSeeder');  
-        $this->call('DocumentSeeder');
+//        $this->call('UserTableSeeder');  
+        $this->call('DocumentsGroupsTableSeeder');
     }
 
 }

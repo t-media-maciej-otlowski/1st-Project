@@ -6,6 +6,8 @@
  * and open the template in the editor.
  */
 
+namespace Users;
+
 namespace Documents;
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
@@ -29,8 +31,8 @@ class Document extends \Eloquent {
 
     //Relations
     //hasMany, belongsTo
-    //hasMany(model, id ,laczace__id )
-    //belongsTo(model,laczace_id,id  )
+    //hasMany(model, id ,laczace__id)
+    //belongsTo(model,laczace_id,id )
     public function attributes() {
         return $this->hasMany('DocumentAttributes', 'id', 'documents__id');
     }

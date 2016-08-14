@@ -30,17 +30,16 @@ class DocumentAttributes extends \Eloquent {
         return $this->belongsTo('Document', 'documents__id', 'id');
     }
 
-    /*
+    
       public function createAttribute($document) {
       $param = [
-      'documentId' => $document->id,
+      'documents__id' => $document->id,
       'name' => $document->type . str_random(3),
-      'description' => str_random(10),
-      'confirmed' => (bool) rand(0, 1)
+      'value' => str_random(10),
+      'type' => str_random(4)
       ];
       $attribute = self::create($param);
       return $attribute;
       }
-     * 
-     */
+     
 }

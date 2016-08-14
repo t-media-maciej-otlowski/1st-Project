@@ -1,5 +1,7 @@
 <?php
+
 namespace Documents;
+
 namespace Users;
 
 //use Illuminate\Auth\UserTrait;
@@ -30,6 +32,16 @@ class User extends \Eloquent {
         'password'
     );
 
+/////////////////////////////////////////////////////////////////////////
+    public function sessions() {
+        return $this->hasMany('UserSession', 'id', 'user__id');
+    }
+
+    public function documents() {
+        return $this->hasMany('DocumentAttributes', 'id', 'user__id');
+    }
+
+////////////////////////////////////////////////////////////////////////
     public function isCorrectPassword($password) {
         $sendPass = hash('sha512', $password);
 
@@ -41,19 +53,11 @@ class User extends \Eloquent {
         }
     }
 
-    public function sessions() {
-        return $this->hasMany('UserSession', 'userId', 'userId');
-    }
-
     public static function getWithHash($hash) {
         $session = UserSession::getSessionWithHash($hash);
         if (!$session) {
             return null;
         }
-    }
-
-    public function ownDocument() {
-        return $this->hasMany('DocumentAttributes', 'userId', 'userId');
     }
 
 }
