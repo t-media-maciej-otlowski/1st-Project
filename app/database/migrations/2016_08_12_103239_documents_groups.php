@@ -19,7 +19,7 @@ class DocumentsGroups extends Eloquent {
             $table->integer('id_parent')->nullable();
             $table->string('name');
             $table->string('description');
-            $table->integer('number');
+            $table->string('number');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -1,16 +1,10 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-namespace Users;
-
 namespace Documents;
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
+use Documents\DocumentAttributes;
+use Documents\DocumentGroup;
 
 class Document extends \Eloquent {
 
@@ -29,17 +23,20 @@ class Document extends \Eloquent {
         'user__id'
     ];
 
+    public function attributes() {
+        return $this->hasMany('Documents\DocumentAttributes', 'documents__id',  'id');
+    }
+    public function group() {
+        return $this->belongsTo('Documents\DocumentGroup','documents_groups__id', 'id');
+    }
+    
     //Relations
     //hasMany, belongsTo
     //hasMany(model, id ,laczace__id)
     //belongsTo(model,laczace_id,id )
-    public function attributes() {
-        return $this->hasMany('DocumentAttributes', 'id', 'documents__id');
-    }
+    /*  
 
-    public function group() {
-        return $this->belongsTo('DocumentGroup', 'documents_groups__id', 'id');
-    }
+    
 
     public function files() {
         return $this->hasMany('DocumentFiles', 'id', 'documents__id');

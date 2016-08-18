@@ -1,12 +1,11 @@
 <?php
-
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class Documents extends \Eloquent {
+class Documents extends Eloquent {
 
-use SoftDeletingTrait;
+    use SoftDeletingTrait;
+
     public function up() {
         Schema::create('documents', function($table) {
             $table->increments('id');
@@ -15,14 +14,13 @@ use SoftDeletingTrait;
             $table->string('description');
             $table->string('type');
             $table->integer('order_number');
+            $table->integer('user__id');
             $table->timestamps();
             $table->softDeletes();
-
-            $table->integer('user__id');
+            
         });
     }
 
- 
     public function down() {
         Schema::drop('documents');
     }

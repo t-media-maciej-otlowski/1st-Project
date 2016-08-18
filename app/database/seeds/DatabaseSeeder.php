@@ -2,15 +2,14 @@
 
 class DatabaseSeeder extends Seeder {
 
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run() {
 
 //        $this->call('UserTableSeeder');  
-        $this->call('DocumentsGroupsTableSeeder');
+//$this->call('DocumentsGroupsTableSeeder');
+        $this->call('DocumentsTableSeeder');
+//         $this->call('DocumentsFilesTableSeeder');
+//         $this->call('DocumentsAttributesTableSeeder');
+//        $this->command->info('TABLE SEEDED!');
     }
 
 }

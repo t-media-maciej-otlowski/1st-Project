@@ -6,6 +6,6 @@
 
 <body>
 
-<h1> Logowanie </h1>
+<h1> {{$}}</h1>
 </body>
 </html>>
