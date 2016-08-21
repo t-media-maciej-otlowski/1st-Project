@@ -17,8 +17,6 @@ class UsersController extends \ServerController {
       |	Route::get('/', 'HomeController@showWelcome');
       |
      */
-
-// 
 // 1.
 // $users = User::all();
 // foreach($users as $index => &$user) {
@@ -27,12 +25,6 @@ class UsersController extends \ServerController {
 // 2.
 // $usersWithDocs = User::where(1)->with('documents')->get();
    
-    
-    
-    
-    
-
-
     /*
       public function showDocument() {
       try {
@@ -42,7 +34,6 @@ class UsersController extends \ServerController {
       }
       }
      */
-
     public function doLogin() {
 
         try {
@@ -52,18 +43,12 @@ class UsersController extends \ServerController {
                         'username' => 'required|min:5',
                         'password' => 'required|min:4'
             ));
-
-
             if ($validate->fails()) {
                 return self::responseJson($validate->errors(), 'error', '1walidacjaZle');
             }
-
-
+              
             $user = User::withTrashed()->where('username', '=', $input['username'])->first();
-
-
-            // chech deleted_at
-
+            
             if (!$user) {
                 return self::responseJson('No user found', 'error', '2222');
             }
@@ -74,15 +59,12 @@ class UsersController extends \ServerController {
             if (!$user->isCorrectPassword($input['password'])) {
                 return self::responseJson('Incorrect password', 'error', null);
             }
-
             $session = UserSession::createWithUser($user);
 //            $session->save();
-
             $user->sessions = [$session];
             $message = array(
                 'user' => $user,
             );
-
             return self::responseJson($message);
         } catch (\Exception $ex) {
             return self::responseJson($ex->getMessage(), 'error', 'cos poszlo nie tak' . '-0000');

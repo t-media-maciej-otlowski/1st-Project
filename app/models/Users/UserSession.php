@@ -15,10 +15,10 @@ class UserSession extends \Eloquent {
     use SoftDeletingTrait;
 
     protected $dates = ['deleted_at'];
-    protected $primaryKey = 'userSessionId';
+    protected $primaryKey = 'id';
     protected $table = 'users_session';
     protected $fillable = [
-        'userId',
+        'user__id',
         'hash',
         'start_at',
         'finish_at'
@@ -26,7 +26,7 @@ class UserSession extends \Eloquent {
 
     public static function createWithUser($user) {
         $param = [
-            'userId' => $user->id,
+            'user__id' => $user->id,
             'start_at' => date('Y-m-d H:i:s'),
             'finish_at' => date('Y-m-d H:i:s', strtotime('+5 minute')),
             'hash' => self::generateHash(date('Y-m-d H:i:s'))

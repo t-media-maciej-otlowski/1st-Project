@@ -8,114 +8,92 @@ use Documents\Document;
 
 class DocumentsController extends \ServerController {
 
-    public function showDocuments() {
+    public function listDocuments() {
         try {
             $params = \Input::all();
-            //validacja
             $validator = \Validator::make($params, [
+                        'with_group' => 'boolean',
                         'with_attributes' => 'boolean'
             ]);
-
             if ($validator->fails()) {
-                return self::responseError($validator->errors(), '0011');
+                return self::resposeJson($validator->errors(), 'error', null);
             }
 
             $query = Document::whereNull('deleted_at');
-            if (isset($params['with_attributes']) && $params['with_attributes'] == true) {
+
+            if (isset($params['with_attributes']) && $params['with_attributes']) {
                 $query->with('attributes');
-           } 
-           
+            }
+            if (isset($params['with_group']) && $params['with_group']) {
+                $query->with('group');
+            }
+            if (isset($params['documents_groups__id']) && $params['documents_groups__id']) {
+                $query->where('documents_groups__id', $params['documents_groups__id']);
+            }
+
             $documents = $query->get();
 
             return self::responseJson($documents);
-
-            //return self::responseJson($documentsAttributes);
         } catch (Exception $ex) {
-            return self::responseJson($ex->getMessage(), 'error', null);
+            return self::resposeJson($ex->getMessage(), 'error', null);
         }
     }
 
-
-  public function showDocumentsInChoosenGroup() {
+    public function addDocuments() {
         try {
-            $params = \Input::all();
-            //validacja
-            $validator = \Validator::make($params, [
-                        'with_group' => 'boolean'
+            $param = \Input::all();
+            $validator = \Validator::make($param, [
+                        'with_group' => 'boolean',
+                        'with_attributes' => 'boolean',
+                        'with_files' => 'boolean'
             ]);
-
             if ($validator->fails()) {
-                return self::responseError($validator->errors(), '0011');
-            }
 
-            $query = Document::whereNull('deleted_at');
-//            if (isset($params['with_attributes']) && $params['with_attributes']) {
-//                
-//           }
-            $query->with('group');
+                return self::resposeJson($validator->errors(), 'error', null);
+            }
+            $query = Document::create($param);
+
+            if (isset($param['with_group']) && ($param['with_group']) == 1) {
+                $query->with('group');
+            }
+            if (isset($param['with_attributes']) && ($param['with_attributes']) == 1) {
+                $query->with('attributes');
+            }
+            if (isset($param['with_files']) && ($param['with_files']) == 1) {
+                $query->with('file');
+            }
             $documents = $query->get();
 
             return self::responseJson($documents);
-
-            //return self::responseJson($documentsAttributes);
         } catch (Exception $ex) {
-            return self::responseJson($ex->getMessage(), 'error', null);
+            return self::resposeJson($ex->getMessage(), 'error', null);
+        }
+    }
+
+    public function updateDocuments() {
+        try {
+            
+        } catch (Exception $ex) {
+            
+        }
+    }
+
+    public function deleteDocuments() {
+        try {
+            $param = \Input::all();
+            $validator = \Validator::make($param, [
+                'with_group'=>'boolean',
+                'with_attributes'=>'boolean',
+                'with_files'=>'boolean'
+            ]);
+            if($validator->fails()){
+                return self::responseJson($validator->errors(), 'error', null);
+            }
+            
+            
+        } catch (Exception $ex) {
+            
         }
     }
 
 }
-
-
-//    public function showDocumentsInChoosenGroup() {
-//       try {
-//          $params = \Input::all();        
-//         $validator = \Validator::make($params,[
-//             
-//            $query = Document::whereNull('deleted_at');
-//           if (isset($params['with_group']) && $params['with_group']) {
-//           }
-//           $documents = $query->get();
-//
-//            return self::responseJson($documents);
-//          
-//       } catch (Exception $ex) {
-//            return self::responseError($ex->getMessage(), 'error', null);
-//       }
-//    }
-
-//}
-
-//            $param = \Input::all();
-//
-//            $validator = \Validator::make($param, array(
-//                        'documents__id' => 'numeric|exists:documents_attributes'
-//            ));
-////dd($param);
-//
-//            if ($validator->fails()) {
-//                return self::responseJson($validator->errors(), '0011', 'ERROR!');
-//            }
-//            \
-
-// $docAtt = DocumentAttributes::whereNull('documents__id')->get();
-//            
-//            $param = [1,2,3,4,5];   
-//            
-//            $docAtt = Document::where('documents_gid', '=', $param[4])->get();
-//            dd($docAtt);
-//
-//
-//
-//
-//            if (isset($param['documents__id'])) {
-//                $query->where('id', $param['documents__id']);
-//
-//                $docs = $query->orderBy('id', 'ASC')->get();
-//                return self::responseJson($docs);
-//            foreach ($docAtt as $docAt) {
-//                $query = Document::where('id', '=', $docAt)->get();
-//                 dd($query);
-//            }
-//           
-            
-       

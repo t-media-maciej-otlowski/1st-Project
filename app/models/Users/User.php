@@ -24,13 +24,12 @@ class User extends \Eloquent {
      *
      * @var array
      */
-    protected $fillable = array
-        (
+    protected $fillable = [
         'name',
         'surname',
         'username',
         'password'
-    );
+    ];
 
 /////////////////////////////////////////////////////////////////////////
     public function sessions() {

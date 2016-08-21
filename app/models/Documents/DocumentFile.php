@@ -1,11 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Documents;
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
@@ -27,7 +20,7 @@ class DocumentFile extends \Eloquent {
     ];
 
     public function document() {
-        return $this->belongsTo('Document', 'documents__id', 'id');
+        return $this->belongsTo('Document', 'id', 'documents__id');
     }
 
     /*

@@ -3,6 +3,7 @@
 use Documents\Document;
 use Documents\DocumentGroup;
 use Documents\DocumentAttributes;
+use Documents\DocumentFile;
 
 class DocumentsTableSeeder extends Seeder {
 
@@ -11,6 +12,7 @@ class DocumentsTableSeeder extends Seeder {
         DB::table('documents')->truncate();
         DB::table('documents_groups')->truncate();
         DB::table('documents_attributes')->truncate();
+        DB::table('documents_files')->truncate();
         // $documents = [];
         $documents = [
             // 8.1
@@ -118,6 +120,15 @@ class DocumentsTableSeeder extends Seeder {
                         'type' => 'type',
                         'order_number' => $docData['number'],
                         'user__id' => 20
+            ]);
+            $document2 = DocumentFile::create([
+                
+                'name' => $docData['name'],
+                'documents__id' => $document->id,
+                'fullname' => '['.$docData['name'].']'.'.doc' ,
+                'extension' => 'pdf',
+                'hash' => hash('md5',$docData['name'].date('Y-m-d H:i:s:u') )
+                
             ]);
             // dc. attr
             foreach ($docData['params'] as $param) {
