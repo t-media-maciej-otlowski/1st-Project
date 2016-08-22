@@ -15,25 +15,20 @@
             <option rel="" rel2='' value=""> -- select method --</option>
 
             <optgroup label="DOCUMENTS">
-                <!-- ----------------------------  GET------------------------------>
+                <!-- ---------------------------- LIST------------------------------>
                 <option rel="POST" rel2='{"with_group":0,"with_attributes":0,"documents_groups__id":6}' value="documents/list">POST documents/list</option>-->
                 <option rel="POST" rel2='{"with_group":0,"with_attributes":1}' value="documents/list">POST documents/list (attributes)</option>-->
                 <option rel="POST" rel2='{"with_group":1,"with_attributes":0}' value="documents/list">POST documents/list (groups)</option>-->
-              
-                <option rel="POST" rel2='{"with_group":0,"with_attributes":0,"documents_groups__id":6}' value="documents/add">POST documents/add</option>-->
-                <option rel="POST" rel2='{"with_group":0,"with_attributes":1}' value="documents/add">POST documents/add (attributes)</option>-->
-                <option rel="POST" rel2='{"with_group":1,"with_attributes":0}' value="documents/add">POST documents/add (groups)</option>-->
-                <option rel="POST" rel2='{"with_group":0,"with_attributes":0, "with_file":1}' value="documents/add">POST documents/add (files)</option>-->
-               
-                <option rel="POST" rel2='{"with_group":0,"with_attributes":0,"documents_groups__id":6}' value="documents/update">POST documents/update</option>-->
-                <option rel="POST" rel2='{"with_group":0,"with_attributes":1}' value="documents/update">POST documents/update (attributes)</option>-->
-                <option rel="POST" rel2='{"with_group":1,"with_attributes":0}' value="documents/update">POST documents/update (groups)</option>-->
-                <option rel="POST" rel2='{"with_group":0,"with_attributes":0, "with_file":1}' value="documents/update">POST documents/update (files)</option>-->
+
+                <!-- ---------------------------- ADD------------------------------>
+                <option rel="POST" rel2='{"id":"15","name":"Lifereschein & CofC","description":"DIN EN ISO/IEC 17025","type":"CofC","order_number":"0","user__id":1}' value="documents/add">POST documents/add</option>-->
+
+                <!-- ---------------------------- UPDATE------------------------------>
+                <option rel="POST" rel2='{"id":"1","name":"Example","description":"XYZ 123321","type":"CofC","order_number":"0","user__id":1}' value="documents/update">POST documents/update</option>-->
+
+                <!-- ----------------------------DELETE------------------------------>
+                <option rel="POST" rel2='{"id":,"documents_groups__id":}' value="documents/delete">POST documents/delete</option>-->
                 
-                <option rel="POST" rel2='{"with_group":0,"with_attributes":0,"documents_groups__id":6}' value="documents/delete">POST documents/delete</option>-->
-                <option rel="POST" rel2='{"with_group":0,"with_attributes":1}' value="documents/delete">POST documents/delete (attributes)</option>-->
-                <option rel="POST" rel2='{"with_group":1,"with_attributes":0}' value="documents/delete">POST documents/delete (groups)</option>-->
-                <option rel="POST" rel2='{"with_group":0,"with_attributes":0, "with_file":1}' value="documents/delete">POST documents/delete (files)</option>-->
             </optgroup>
 
             <optgroup label="USERS">

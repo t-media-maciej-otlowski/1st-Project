@@ -31,9 +31,9 @@ Route::group(['namespace' => 'ApiClient', 'prefix' => 'developers'], function() 
         Route::get('showall', array('uses' => 'Documents\DocumentsController@showAll'));
         
         Route::post('list', array('uses' => 'Documents\DocumentsController@listDocuments'));
-        Route::post('add', array('uses' => 'Documents\DocumentsController@addDocument'));
-        Route::post('update', array('uses' => 'Documents\DocumentsController@updateDocument'));
-        Route::post('delete', array('uses' => 'Documents\DocumentsController@deleteDocument'));
+        Route::post('add', array('uses' => 'Documents\DocumentsController@addDocuments'));
+        Route::post('update', array('uses' => 'Documents\DocumentsController@updateDocuments'));
+        Route::post('delete', array('uses' => 'Documents\DocumentsController@deleteDocuments'));
         
     });
 
