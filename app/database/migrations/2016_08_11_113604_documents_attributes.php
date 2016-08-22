@@ -20,7 +20,7 @@ class DocumentsAttributes extends Eloquent {
     }
 
     public function down() {
-        Schema::drop('documents_attributtes');
+        Schema::drop('documents_attributes');
     }
 
 }

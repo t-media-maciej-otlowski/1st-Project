@@ -5,35 +5,19 @@ namespace Users;
 use Documents\Document;
 
 class UsersController extends \ServerController {
-    /*
-      |--------------------------------------------------------------------------
-      | Default Home Controller
-      |--------------------------------------------------------------------------
-      |
-      | You may wish to use controllers instead of, or in addition to, Closure
-      | based routes. That's great! Here is an example controller method to
-      | get you started. To route to this controller, just add the route:
-      |
-      |	Route::get('/', 'HomeController@showWelcome');
-      |
-     */
-// 1.
-// $users = User::all();
-// foreach($users as $index => &$user) {
-//    $user->documents;
-// } 
-// 2.
-// $usersWithDocs = User::where(1)->with('documents')->get();
-   
-    /*
-      public function showDocument() {
-      try {
-      $document = Documents::withTrashed()->where('confirmed', 0);
-      } catch (\Exception $ex) {
 
-      }
-      }
-     */
+    public function listUsers() {
+
+        $params = \Input::all();
+        $validator = \Validator::make($params, [
+                    'with_documents' => 'boolean'
+        ]);
+        if ($validator->fails()) {
+            return self::responseJson($validator->errors(), 'error', null);
+        }
+      
+    }
+
     public function doLogin() {
 
         try {
@@ -46,9 +30,9 @@ class UsersController extends \ServerController {
             if ($validate->fails()) {
                 return self::responseJson($validate->errors(), 'error', '1walidacjaZle');
             }
-              
+
             $user = User::withTrashed()->where('username', '=', $input['username'])->first();
-            
+
             if (!$user) {
                 return self::responseJson('No user found', 'error', '2222');
             }

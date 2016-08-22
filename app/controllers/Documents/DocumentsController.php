@@ -98,7 +98,7 @@ class DocumentsController extends \ServerController {
             $param = \Input::all();
             $validator = \Validator::make($param, array(
                         'id' => 'numeric|exists:documents',
-                        'documents_groups__id' => 'numeric',
+                        'documents_groups__id' => 'numeric|exists:documents',
             ));
             if ($validator->fails()) {
                 return self::responseJson($validator->errors(), 'error', null);
@@ -113,8 +113,8 @@ class DocumentsController extends \ServerController {
                 $documents = Document::where('documents_groups__id', '=', $param['documents_groups__id'])
                         ->get();
             }
-            if (!$documents) {
-                return self::responseJson('Document not found', 'error', null);
+            if (empty($documents)) {
+                return self::responseJson('Documents not found', 'error', null);
             }
             \DB::beginTransaction();
             foreach ($documents as $index => $document) {

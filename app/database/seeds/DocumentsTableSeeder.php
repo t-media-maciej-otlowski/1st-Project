@@ -18,14 +18,14 @@ class DocumentsTableSeeder extends Seeder {
             // 8.1
             [
                 'name' => 'Lifereschein & CofC',
-                'number' => '8.1',
+                'number' => '8,1',
                 'description' => '',
                 'type' => 'CofC',
                 'params' => ['A', 'B', 'C', 'D', 'TEST']
             ],
             [
                 'name' => 'Betriebsanieltung',
-                'number' => '8.1',
+                'number' => '8,1',
                 'description' => '',
                 'type' => '..',
                 'params' => []
@@ -33,14 +33,14 @@ class DocumentsTableSeeder extends Seeder {
             // 8.2
             [
                 'name' => 'Lifereschein & CofC',
-                'number' => '8.2',
+                'number' => '8,2',
                 'description' => '',
                 'type' => 'CofC',
                 'params' => ['A', 'B', 'C', 'D', 'TEST']
             ],
             [
                 'name' => 'Kalibrierzertifikate',
-                'number' => '8.2',
+                'number' => '8,2',
                 'description' => 'DIN EN ISO/IEC 17025',
                 'params' => ['A', 'B', 'C', 'D', 'TEST']
             ],
@@ -106,11 +106,13 @@ class DocumentsTableSeeder extends Seeder {
 
         foreach ($documents as $docData) {
             // get details d.group   
+       
             $documentGroup = DocumentGroup::create([
                         'id_parent' => NULL,
                         'name' => 'Warendetailgruppe',
                         'description' => 'Spezifikation',
                         'number' => $docData['number']
+            
             ]);
             // create
             $document = Document::create([
