@@ -21,14 +21,15 @@
                 <option rel="POST" rel2='{"with_group":1,"with_attributes":0}' value="documents/list">POST documents/list (groups)</option>-->
 
                 <!-- ---------------------------- ADD------------------------------>
-                <option rel="POST" rel2='{"id":"15","name":"Lifereschein & CofC","description":"DIN EN ISO/IEC 17025","type":"CofC","order_number":"0","user__id":1}' value="documents/add">POST documents/add</option>-->
+                <option rel="POST" rel2='{"documents_groups__id":"1","name":"Lifereschein & CofC","description":"DIN EN ISO/IEC 17025","type":"CofC","order_number":"0","user__id":1}' value="documents/add">POST documents/add</option>-->
+               
 
                 <!-- ---------------------------- UPDATE------------------------------>
                 <option rel="POST" rel2='{"id":"1","name":"Example","description":"XYZ 123321","type":"CofC","order_number":"0","user__id":1}' value="documents/update">POST documents/update</option>-->
 
                 <!-- ----------------------------DELETE------------------------------>
                 <option rel="POST" rel2='{"id":,"documents_groups__id":}' value="documents/delete">POST documents/delete</option>-->
-                
+
             </optgroup>
 
             <optgroup label="USERS">

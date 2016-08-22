@@ -30,11 +30,12 @@ class DocumentsController extends \ServerController {
             if (isset($params['documents_groups__id']) && $params['documents_groups__id']) {
                 $query->where('documents_groups__id', $params['documents_groups__id']);
             }
-
+            \DB::beginTransaction();
             $documents = $query->get();
-
+            \DB::commit();
             return self::responseJson($documents);
         } catch (Exception $ex) {
+            \DB::rollback();
             return self::resposeJson($ex->getMessage(), 'error', null);
         }
     }
@@ -43,22 +44,21 @@ class DocumentsController extends \ServerController {
         try {
             $param = \Input::all();
             $validator = \Validator::make($param, [
-                        'id' => 'required|numeric|exists:documents_groups',
+                        'documents_groups__id' => 'required|numeric|exists:documents_groups,id',
                         'name' => 'string',
                         'description' => 'string',
                         'type' => 'string',
                         'order_number' => 'integer',
-                        'user__id' => 'integer'
+                        'user__id' => 'integer',
             ]);
             if ($validator->fails()) {
                 return self::responseJson($validator->errors(), 'error', null);
             }
-            $document_group_id = DocumentGroup::where('id', '=', $param['id'])->first();
+            $document_group_id = DocumentGroup::where('id', '=', $param['documents_groups__id'])->first();
             // $document = Document::where('documents_groups_id','=',$param['id'])
             if (!$document_group_id) {
                 return self::responseJson('DocumentGroup does not exist', 'error', null);
             }
-
             $document = Document::create($param);
 
             return self::responseJson($document);
@@ -98,27 +98,32 @@ class DocumentsController extends \ServerController {
             $param = \Input::all();
             $validator = \Validator::make($param, array(
                         'id' => 'numeric|exists:documents',
-                        'documents_groups_id' => 'numeric',
+                        'documents_groups__id' => 'numeric',
             ));
             if ($validator->fails()) {
                 return self::responseJson($validator->errors(), 'error', null);
             }
+            //list selected document by id(array:1 document)
             if (isset($param['id']) && ($param['id'])) {
-                $document = Document::where('id', '=', $param['id'])
-                        ->first();
+                $documents = Document::where('id', '=', $param['id'])
+                        ->get();
             }
-
-            if (isset($param['documents_group_id']) && ($param['documents_group_id'])) {
-                $document = Document::where('id', '=', $param['documents_group_id'])
-                        ->first();
+            //list all documents of selected group(array:N documents)
+            if (isset($param['documents_groups__id']) && ($param['documents_groups__id'])) {
+                $documents = Document::where('documents_groups__id', '=', $param['documents_groups__id'])
+                        ->get();
             }
-            if (!$document) {
+            if (!$documents) {
                 return self::responseJson('Document not found', 'error', null);
             }
-
-            $document->delete();
-            return self::responseJson($document);
+            \DB::beginTransaction();
+            foreach ($documents as $index => $document) {
+                $document->delete();
+            }
+            \DB::commit();
+            return self::responseJson($documents);
         } catch (Exception $ex) {
+            DB::rollback();
             return self::responseJson($ex->getMessage(), 'error', null);
         }
     }
