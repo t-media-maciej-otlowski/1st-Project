@@ -35,6 +35,10 @@ class Document extends \Eloquent {
     public function file() {
         return $this->belongsTo('Documents\DocumentFile', 'id', 'documents__id');
     }
+    public function document()
+            {
+        return $this->belongsTo('Users\User', 'user__id', 'id');
+            }
 
     //Relations
     //hasMany, belongsTo

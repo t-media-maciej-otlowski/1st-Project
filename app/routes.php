@@ -41,4 +41,5 @@ Route::group(['namespace' => 'ApiClient', 'prefix' => 'developers'], function() 
 // Module :: Users
 Route::group(array('prefix' => 'users'), function() {
     Route::post('login', array('uses' => 'Users\UsersController@doLogin'));
+    Route::post('list', array('uses' => 'Users\UsersController@listUsers'));
 });

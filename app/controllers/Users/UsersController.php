@@ -10,12 +10,24 @@ class UsersController extends \ServerController {
 
         $params = \Input::all();
         $validator = \Validator::make($params, [
+                    'user__id' => 'numeric|exists:users,id',
                     'with_documents' => 'boolean'
         ]);
         if ($validator->fails()) {
             return self::responseJson($validator->errors(), 'error', null);
         }
-      
+
+        $user = User::where('id', '=','user__id');
+        if (!$user) {
+            return self::responseJson('User not found', 'error', null);
+        }
+        if (isset($params['with_documents']) && $params['with_documents'] == 1) {
+            $user->with('documents');
+            //dd($user);
+        }
+        $response = $user->get();
+
+        return self::responseJson($response);
     }
 
     public function doLogin() {

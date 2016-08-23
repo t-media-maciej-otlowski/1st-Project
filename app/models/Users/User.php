@@ -1,9 +1,7 @@
 <?php
 
-namespace Documents;
-
 namespace Users;
-
+use Documents\Document;
 //use Illuminate\Auth\UserTrait;
 //use Illuminate\Auth\Reminders\RemindableTrait;
 //use Illuminate\Auth\Reminders\RemindableInterface;
@@ -37,7 +35,7 @@ class User extends \Eloquent {
     }
 
     public function documents() {
-        return $this->hasMany('DocumentAttributes', 'id', 'user__id');
+        return $this->hasMany('Documents\Document', 'user__id', 'id');
     }
 
 ////////////////////////////////////////////////////////////////////////

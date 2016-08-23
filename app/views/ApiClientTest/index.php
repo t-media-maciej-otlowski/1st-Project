@@ -34,6 +34,8 @@
 
             <optgroup label="USERS">
                 <option rel="POST" rel2='{"username":"user0","password":"surname"}' value="users/login">POST login</option>
+                
+                   <option rel="POST" rel2='{"","with_documents":1}' value="users/list">POST users/list</option>-->
             </optgroup>
         </select>
         <input type="checkbox" id="global" name="global" />
